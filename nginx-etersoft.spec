@@ -1,12 +1,12 @@
 Name: nginx-etersoft
-Version: 0.1.1
+Version: 0.1.2
 Release: alt1
 
 Summary: Additional Nginx templates and functions
 
 License: AGPLv3
 Group: Development/Other
-#Url: http://freesource.info/wiki/korinf
+Url: http://www.altlinux.org/Nginx-etersoft
 
 Packager: Vitaly Lipatov <lav@altlinux.ru>
 
@@ -37,6 +37,12 @@ install -m644 examples/* %buildroot%_sysconfdir/nginx/examples/
 %_sysconfdir/nginx/examples/
 
 %changelog
+* Thu Nov 11 2010 Vitaly Lipatov <lav@altlinux.ru> 0.1.2-alt1
+- correct ignore www rewrite for robots.txt
+- hold scheme when set main host
+- set proxy_buffer_size in all proxy
+- use relate path instead full
+
 * Sun Mar 07 2010 Vitaly Lipatov <lav@altlinux.ru> 0.1.1-alt1
 - add examples, add ssl configs
 
