@@ -17,9 +17,15 @@
 
        proxy_cache_use_stale http_502 http_503 http_504;
 
-       # is not allowed
-       #proxy_cache_path /var/spool/nginx/cache levels=1:2 keys_zone=one:20m inactive=1d max_size=200m;
+       # is not allowed here, set it in /etc/nginx/nginx.conf
+       #proxy_cache_path /var/spool/nginx/cache levels=1:2 keys_zone=onepr:20m inactive=1d max_size=200m;
        #proxy_temp_path /var/spool/nginx/tmp/proxy;
+
+       # is not allowed here, set it in /etc/nginx/nginx.conf for use limit_conn
+       # limit_zone   one  $binary_remote_addr  10m;
+       # http://sysoev.ru/nginx/docs/http/ngx_http_limit_zone_module.html
+       # is not allowed here, temp limit
+       # limit_conn   one  100;
 
        # Need for work
        proxy_buffering on;
