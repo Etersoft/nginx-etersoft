@@ -1,5 +1,5 @@
 Name: nginx-etersoft
-Version: 0.1.3
+Version: 0.1.4
 Release: alt1
 
 Summary: Additional Nginx templates and functions
@@ -37,6 +37,9 @@ install -m644 examples/* %buildroot%_sysconfdir/nginx/examples/
 %_sysconfdir/nginx/examples/
 
 %changelog
+* Thu Jun 09 2011 Vitaly Lipatov <lav@altlinux.ru> 0.1.4-alt1
+- add static-images.conf
+
 * Thu Nov 11 2010 Vitaly Lipatov <lav@altlinux.ru> 0.1.3-alt1
 - fix robots.txt rewrite for set-mainhost
 
