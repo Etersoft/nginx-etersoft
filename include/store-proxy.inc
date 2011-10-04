@@ -68,3 +68,4 @@
 
        #access_log   /var/log/nginx/azbyka-test-access.log my_detail;
        #access_log   /var/log/nginx/azbyka-test-access.log cachefor;
+
