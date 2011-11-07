@@ -1,5 +1,5 @@
 Name: nginx-etersoft
-Version: 0.1.5
+Version: 0.1.6
 Release: alt1
 
 Summary: Additional Nginx templates and functions
@@ -37,6 +37,9 @@ install -m644 examples/* %buildroot%_sysconfdir/nginx/examples/
 %_sysconfdir/nginx/examples/
 
 %changelog
+* Mon Nov 07 2011 Vitaly Lipatov <lav@altlinux.ru> 0.1.6-alt1
+- add static-fallback.conf, mark as obsoleted static, static-images
+
 * Thu Oct 20 2011 Vitaly Lipatov <lav@altlinux.ru> 0.1.5-alt1
 - add logdefine.conf
 - add reproxy.conf for internal redirect

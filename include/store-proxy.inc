@@ -29,8 +29,8 @@
 
        # Need for work
        proxy_buffering on;
-       proxy_buffers 50 8k;
-       proxy_buffer_size 32k;
+       proxy_buffers 8 32k;
+       proxy_buffer_size 64k;
        proxy_store off;
 
        # TODO php: check for cookie!
