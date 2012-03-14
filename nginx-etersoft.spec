@@ -1,5 +1,5 @@
 Name: nginx-etersoft
-Version: 0.1.6
+Version: 0.1.7
 Release: alt1
 
 Summary: Additional Nginx templates and functions
@@ -37,6 +37,9 @@ install -m644 examples/* %buildroot%_sysconfdir/nginx/examples/
 %_sysconfdir/nginx/examples/
 
 %changelog
+* Thu Mar 15 2012 Vitaly Lipatov <lav@altlinux.ru> 0.1.7-alt1
+- add subst-site.conf for site.ru/subdir -> some.site.ru proxying
+
 * Mon Nov 07 2011 Vitaly Lipatov <lav@altlinux.ru> 0.1.6-alt1
 - add static-fallback.conf, mark as obsoleted static, static-images
 
