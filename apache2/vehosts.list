@@ -1,0 +1,3 @@
+# Config for nginx conf autocreate
+#  VEID IP            in VE dir                  domains (without www)
+   192  192.168.3.192 /usr/share/mediawiki       islam-koran.com
