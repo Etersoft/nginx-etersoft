@@ -10,22 +10,16 @@
 
        # http://dklab.ru/chicken/nablas/56.html
        # http://n2.nabble.com/proxy-cache-does-not-work-td2986064.html
-       proxy_cache             onepr;
+       proxy_cache             ngcache;
 
        # this is default value
        proxy_cache_key          "$scheme$host$uri$is_args$args";
 
        proxy_cache_use_stale http_502 http_503 http_504;
 
-       # is not allowed here, set it in /etc/nginx/nginx.conf
+       # cache.conf in conf-available.d
        #proxy_cache_path /var/spool/nginx/cache levels=1:2 keys_zone=onepr:20m inactive=1d max_size=200m;
        #proxy_temp_path /var/spool/nginx/tmp/proxy;
-
-       # is not allowed here, set it in /etc/nginx/nginx.conf for use limit_conn
-       # limit_zone   one  $binary_remote_addr  10m;
-       # http://sysoev.ru/nginx/docs/http/ngx_http_limit_zone_module.html
-       # is not allowed here, temp limit
-       # limit_conn   one  100;
 
        # Need for work
        proxy_buffering on;
@@ -60,12 +54,7 @@
        # lav 01.07.09
        proxy_set_header  Connection  close;
        proxy_set_header Host $host;
-       proxy_set_header X-Real-IP $remote_addr;
 
+       # Нужно для модуля RPAF в Apache, в котором указывается RPAFheader X-Forwarded-For
        # http://padlik.ru/entries/86.html
-       # lav 02.07.09
        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
-       #access_log   /var/log/nginx/azbyka-test-access.log my_detail;
-       #access_log   /var/log/nginx/azbyka-test-access.log cachefor;
-

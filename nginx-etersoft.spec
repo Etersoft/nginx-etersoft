@@ -1,5 +1,5 @@
 Name: nginx-etersoft
-Version: 0.1.7
+Version: 0.2.0
 Release: alt1
 
 Summary: Additional Nginx templates and functions
@@ -16,7 +16,7 @@ Source: %name-%version.tar
 
 BuildArchitectures: noarch
 
-Requires: nginx >= 0.8.0
+Requires: nginx >= 1.1.8
 
 %description
 Additional Nginx templates and functions.
@@ -25,8 +25,15 @@ Additional Nginx templates and functions.
 %setup
 
 %install
-mkdir -p %buildroot%_sysconfdir/nginx/include/
-install -m644 include/* %buildroot%_sysconfdir/nginx/include/
+mkdir -p %buildroot%_sysconfdir/nginx/include/limits/
+install -m644 include/*.conf %buildroot%_sysconfdir/nginx/include/
+install -m644 include/*.inc %buildroot%_sysconfdir/nginx/include/
+install -m644 include/limits/* %buildroot%_sysconfdir/nginx/include/limits/
+
+mkdir -p %buildroot%_sysconfdir/nginx/httpconf-enabled.d/
+
+mkdir -p %buildroot%_sysconfdir/nginx/httpconf-available.d/
+install -m644 httpconf-available.d/* %buildroot%_sysconfdir/nginx/httpconf-available.d/
 
 mkdir -p %buildroot%_sysconfdir/nginx/examples/
 install -m644 examples/* %buildroot%_sysconfdir/nginx/examples/
@@ -34,9 +41,16 @@ install -m644 examples/* %buildroot%_sysconfdir/nginx/examples/
 %files
 %dir %_sysconfdir/nginx/include/
 %config(noreplace) %_sysconfdir/nginx/include/*
+%dir %_sysconfdir/nginx/httpconf-available.d/
+%dir %_sysconfdir/nginx/httpconf-enabled.d/
+%config(noreplace) %_sysconfdir/nginx/httpconf-available.d/*
 %_sysconfdir/nginx/examples/
 
 %changelog
+* Wed Mar 21 2012 Vitaly Lipatov <lav@altlinux.ru> 0.2.0-alt1
+- moved to nginx >= 1.1.8
+- too many incompatible changes
+
 * Thu Mar 15 2012 Vitaly Lipatov <lav@altlinux.ru> 0.1.7-alt1
 - add subst-site.conf for site.ru/subdir -> some.site.ru proxying
 
