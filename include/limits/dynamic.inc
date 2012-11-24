@@ -1,2 +1,2 @@
 
-limit_req zone=reqlim burst=10;
+limit_req zone=reqlim burst=10 nodelay;
