@@ -110,6 +110,7 @@ for i in $VHOSTSDIR/*.conf ; do
 	ALIASLIST=$(get_var $i ServerAlias | head -n1 | xargs -n1 echo | sort -u | grep -v "^$SITE\$" | grep -v "^www.$SITE\$" | xargs echo)
 	UDIR=$(dirname "$DROOT") ; UDIR=$(dirname "$UDIR") ; UDIR=$(basename "$UDIR")
 
+	echo
 	echo "Read from $(basename $i), main site: $SITE, USER: $UDIR, ALIASLIST: $ALIASLIST"
 
 	if [ "$VHOSTSDIR/$SITE.conf" != "$i" ] ; then
@@ -125,7 +126,17 @@ for i in $VHOSTSDIR/*.conf ; do
 	fi
 
 	NOCACHE=$(check_if_nocache $SITE)
-	print_nginx_conf $HOSTIP $VEDIR$DROOT $SITE "$ALIASLIST" "$APACHEHOST" "$NOCACHE" >$NGINXSITES/$SITE.conf
+	print_nginx_conf $HOSTIP $VEDIR$DROOT $SITE "$ALIASLIST" "$APACHEHOST" "$NOCACHE" >$NGINXSITES/$SITE.conf.new
+	if [ -r $NGINXSITES/$SITE.conf ] ; then
+		if diff -u $NGINXSITES/$SITE.conf $NGINXSITES/$SITE.conf.new ; then
+			echo "$NGINXSITES/$SITE.conf not changed"
+			rm -f $NGINXSITES/$SITE.conf.new
+		else
+			mv -f $NGINXSITES/$SITE.conf.new $NGINXSITES/$SITE.conf
+		fi
+	else
+		mv -f $NGINXSITES/$SITE.conf.new $NGINXSITES/$SITE.conf
+	fi
 done
 }
 
