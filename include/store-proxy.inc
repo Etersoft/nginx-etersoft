@@ -22,6 +22,8 @@
        #proxy_temp_path /var/spool/nginx/tmp/proxy;
 
        # Need for work
+       # http://www.lexa.ru/nginx-ru/msg25572.html
+       # TODO: move to separate
        proxy_buffering on;
        proxy_buffers 8 32k;
        proxy_buffer_size 64k;
