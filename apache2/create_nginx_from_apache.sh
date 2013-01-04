@@ -38,6 +38,9 @@ cat <<EOF
 
         set \$subserver http://$SUBSERVER;
 
+        # Отдаём jpeg, png, gif напрямую. Не существуют - отдаём приготовленную картинку
+        include include/static-stub.conf;
+
         # пробуем отдать напрямую статикой, не получится - на @fallback
         include include/static-fallback.conf;
 

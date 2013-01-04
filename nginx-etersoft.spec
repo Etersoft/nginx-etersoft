@@ -38,6 +38,9 @@ install -m644 httpconf-available.d/* %buildroot%_sysconfdir/nginx/httpconf-avail
 mkdir -p %buildroot%_sysconfdir/nginx/examples/
 install -m644 examples/* %buildroot%_sysconfdir/nginx/examples/
 
+mkdir -p %buildroot%_datadir/%name/images/
+install -m644 share/images/* %buildroot%_datadir/%name/images/
+
 %files
 %dir %_sysconfdir/nginx/include/
 %config(noreplace) %_sysconfdir/nginx/include/*
@@ -45,6 +48,7 @@ install -m644 examples/* %buildroot%_sysconfdir/nginx/examples/
 %dir %_sysconfdir/nginx/httpconf-enabled.d/
 %config(noreplace) %_sysconfdir/nginx/httpconf-available.d/*
 %_sysconfdir/nginx/examples/
+%_datadir/%name/
 
 %changelog
 * Sat Nov 24 2012 Vitaly Lipatov <lav@altlinux.ru> 0.2.1-alt1
