@@ -1,5 +1,5 @@
 Name: nginx-etersoft
-Version: 0.2.2
+Version: 0.2.3
 Release: alt1
 
 Summary: Additional Nginx templates and functions
@@ -51,6 +51,13 @@ install -m644 share/images/* %buildroot%_datadir/%name/images/
 %_datadir/%name/
 
 %changelog
+* Sat Mar 23 2013 Vitaly Lipatov <lav@altlinux.ru> 0.2.3-alt1
+- add trans-admin-proxy.conf
+- deny.conf: forbids sql and .hg
+- stop-crack.conf: slow login pages for WordPress and Joomla
+- add limits for media
+- move admin limits to separate files
+
 * Fri Jan 04 2013 Vitaly Lipatov <lav@altlinux.ru> 0.2.2-alt1
 - add static-stub and images for it
 - add no_cache example
