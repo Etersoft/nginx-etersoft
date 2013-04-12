@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# TODO: исключения переделать на общий список
+# по умолчанию - не кэшировать главную
+
 . ./create_nginx.config
 
 
@@ -9,6 +12,7 @@ VEDIR=/var/lib/vz/root/$VEID
 VHOSTSDIR=$VEDIR/etc/httpd2/conf/sites-enabled
 
 NOCACHELIST=hosts_no_cache_main.list
+NOIMAGEMISSING=hosts_no_image_missing.list
 
 LOGFILE=$0.log
 NGINXSITES=/etc/nginx/sites-enabled.d/generated
@@ -19,7 +23,14 @@ mkdir -p $NGINXSITES
 check_if_nocache()
 {
     local SITE="$1"
-    grep -q $SITE $NOCACHELIST && echo NOCACHEMAINPAGE
+    grep -q $SITE $NOCACHELIST
+}
+
+
+check_if_nomissing()
+{
+    local SITE="$1"
+    grep -q $SITE $NOIMAGEMISSING
 }
 
 print_nginx_conf()
@@ -27,7 +38,13 @@ print_nginx_conf()
 	local IP=$1 ROOT=$2 DOMAIN=$3 ALIASLIST="$4" SUBSERVER="$5" NOCACHE="$6"
 cat <<EOF
    server {
-#        listen $IP;
+EOF
+if [ -n "$IP" ] ; then
+cat <<EOF
+        listen $IP;
+EOF
+fi
+cat <<EOF
         server_name $DOMAIN www.$DOMAIN $ALIASLIST;
 
         # Разные запрещённые файлы и каталоги
@@ -38,8 +55,15 @@ cat <<EOF
 
         set \$subserver http://$SUBSERVER;
 
+EOF
+
+if ! check_if_nomissing $DOMAIN ; then
+cat <<EOF
         # Отдаём jpeg, png, gif напрямую. Не существуют - отдаём приготовленную картинку
         include include/static-stub.conf;
+EOF
+fi
+cat <<EOF
 
         # пробуем отдать напрямую статикой, не получится - на @fallback
         include include/static-fallback.conf;
@@ -57,15 +81,24 @@ cat <<EOF
 #              return 412;
 #        }
 
-#        error_page 412 = @fallback;
+        error_page 412 = @fallback;
+EOF
+if ! check_if_nocache $DOMAIN ; then
+cat <<EOF
 
         # always cache main page
-        location = /$NOCACHE {
+        location = / {
                 # Пытаемся, чтобы redirect www был только для динамики
                 include include/rewrite-www.conf;
                 proxy_pass \$subserver;
                 include include/store-proxy.conf;
         }
+EOF
+fi
+
+cat <<EOF
+
+        include include/stop-crack.conf;
 
         location / {
             # Пытаемся, чтобы redirect www был только для динамики
@@ -97,6 +130,11 @@ get_var()
 	grep -i "^ *$2 " "$1" | head -n 1 | sed -e "s/^[ \t]*$2[ \t]*//g" | sed -e 's/"//g'
 }
 
+get_multivar()
+{
+	grep -i "^ *$2 " "$1" | sed -e "s/^[ \t]*$2[ \t]*//g" | sed -e 's/"//g'
+}
+
 
 echo > $LOGFILE
 date >> $LOGFILE
@@ -110,7 +148,7 @@ for i in $VHOSTSDIR/*.conf ; do
 		continue
 	fi
 	DROOT=$(get_var $i DocumentRoot)
-	ALIASLIST=$(get_var $i ServerAlias | head -n1 | xargs -n1 echo | sort -u | grep -v "^$SITE\$" | grep -v "^www.$SITE\$" | xargs echo)
+	ALIASLIST=$(get_multivar $i ServerAlias | xargs -n1 echo | sort -u | grep -v "^$SITE\$" | grep -v "^www.$SITE\$" | xargs echo)
 	UDIR=$(dirname "$DROOT") ; UDIR=$(dirname "$UDIR") ; UDIR=$(basename "$UDIR")
 
 	echo
@@ -129,7 +167,7 @@ for i in $VHOSTSDIR/*.conf ; do
 	fi
 
 	NOCACHE=$(check_if_nocache $SITE)
-	print_nginx_conf $HOSTIP $VEDIR$DROOT $SITE "$ALIASLIST" "$APACHEHOST" "$NOCACHE" >$NGINXSITES/$SITE.conf.new
+	print_nginx_conf "$LISTENIP" $VEDIR$DROOT $SITE "$ALIASLIST" "$APACHEHOST" "$NOCACHE" >$NGINXSITES/$SITE.conf.new
 	if [ -r $NGINXSITES/$SITE.conf ] ; then
 		if diff -u $NGINXSITES/$SITE.conf $NGINXSITES/$SITE.conf.new ; then
 			echo "$NGINXSITES/$SITE.conf not changed"
@@ -167,5 +205,5 @@ while read VEID VEIP VESUBDIR DOMAINS ; do
     fi
 
     NOCACHE=$(check_if_nocache $SITE)
-    print_nginx_conf $HOSTIP $VEDIR$VESUBDIR $SITE "$OTHERDOMAINS" "$VEIP:80" "$NOCACHE" >$NGINXSITES/$SITE.conf
+    print_nginx_conf "$LISTENIP" $VEDIR$VESUBDIR $SITE "$OTHERDOMAINS" "$VEIP:80" "$NOCACHE" >$NGINXSITES/$SITE.conf
 done <vehosts.list
