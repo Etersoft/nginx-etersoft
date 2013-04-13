@@ -23,6 +23,7 @@ mkdir -p $NGINXSITES
 check_if_nocache()
 {
     local SITE="$1"
+    test -r $NOCACHELIST || return
     grep -q $SITE $NOCACHELIST
 }
 
@@ -30,6 +31,7 @@ check_if_nocache()
 check_if_nomissing()
 {
     local SITE="$1"
+    test -r $NOIMAGEMISSING || return
     grep -q $SITE $NOIMAGEMISSING
 }
 
