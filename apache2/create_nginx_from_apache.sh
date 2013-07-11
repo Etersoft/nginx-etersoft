@@ -4,7 +4,7 @@
 # по умолчанию - не кэшировать главную
 
 . ./create_nginx.config
-
+. ./functions.apache
 
 VEDIR=/var/lib/vz/root/$VEID
 
@@ -126,18 +126,6 @@ EOF
 }
 
 
-
-get_var()
-{
-	grep -i "^ *$2 " "$1" | head -n 1 | sed -e "s/^[ \t]*$2[ \t]*//g" | sed -e 's/"//g'
-}
-
-get_multivar()
-{
-	grep -i "^ *$2 " "$1" | sed -e "s/^[ \t]*$2[ \t]*//g" | sed -e 's/"//g'
-}
-
-
 echo > $LOGFILE
 date >> $LOGFILE
 
@@ -149,9 +137,13 @@ for i in $VHOSTSDIR/*.conf ; do
 		echo "Skipping $i..." | tee -a $LOGFILE
 		continue
 	fi
+
 	DROOT=$(get_var $i DocumentRoot)
-	ALIASLIST=$(get_multivar $i ServerAlias | xargs -n1 echo | sort -u | grep -v "^$SITE\$" | grep -v "^www.$SITE\$" | xargs echo)
+
+	# Note: Will note use: get username from /home/USER/www/domain -> USER
 	UDIR=$(dirname "$DROOT") ; UDIR=$(dirname "$UDIR") ; UDIR=$(basename "$UDIR")
+
+	ALIASLIST=$(get_aliaslist)
 
 	echo
 	echo "Read from $(basename $i), main site: $SITE, USER: $UDIR, ALIASLIST: $ALIASLIST"

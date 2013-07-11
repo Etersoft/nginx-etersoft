@@ -1,0 +1,32 @@
+# Etersoft (c) 2013
+# Sync to nginx-etersoft/apache2 and etersoft-admin-essential after change
+
+
+# get one var from virtualhost config
+get_var()
+{
+	grep -i "^ *$2 " "$1" | head -n 1 | sed -e "s/^[ \t]*$2[ \t]*//g" | sed -e 's/"//g'
+}
+
+#getVar()
+#{
+#    cat $1 | sed -e "s/^[ \t]*\(.*\)/\1/g" | grep -v "^#" | grep "^$2" | cut -f 2 -d" "
+#}
+
+
+# get all var values from virtualhost config
+get_multivar()
+{
+	grep -i "^ *$2 " "$1" | sed -e "s/^[ \t]*$2[ \t]*//g" | sed -e 's/"//g'
+}
+
+# returns sorted aliases list
+get_aliaslist()
+{
+    local conf=$1
+    local SITE=$(get_var $conf ServerName)
+    local techhost=$TECHHOST
+    [ -n "$techhost" ] || techhost="UNKNOWNTECHHOST"
+    # first xargs -n1 for get line by line, next xargs - for get one line output
+    get_multivar $conf ServerAlias | xargs -n1 echo | sort -u | grep -v "^$SITE\$" | grep -v "^www.$SITE\$" | grep -v "$techhost$" | xargs echo
+}
