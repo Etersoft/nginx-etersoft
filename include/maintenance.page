@@ -1,0 +1,15 @@
+location / {
+    return 503;
+}
+
+error_page 503 /index-maintenance.html;
+
+location /index-maintenance.html {
+    internal;
+    root /var/www/html/maintenance;
+}
+
+location @fallback {
+    internal;
+    root /var/www/html/maintenance;
+}

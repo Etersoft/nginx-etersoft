@@ -41,6 +41,9 @@ install -m644 examples/* %buildroot%_sysconfdir/nginx/examples/
 mkdir -p %buildroot%_datadir/%name/images/
 install -m644 share/images/* %buildroot%_datadir/%name/images/
 
+mkdir -p %buildroot%webserver_htdocsdir/maintenance/
+install -m644 www/* %buildroot%webserver_htdocsdir/maintenance/
+
 %files
 %dir %_sysconfdir/nginx/include/
 %config(noreplace) %_sysconfdir/nginx/include/*
@@ -49,6 +52,7 @@ install -m644 share/images/* %buildroot%_datadir/%name/images/
 %config(noreplace) %_sysconfdir/nginx/httpconf-available.d/*
 %_sysconfdir/nginx/examples/
 %_datadir/%name/
+%webserver_htdocsdir/maintenance/
 
 %changelog
 * Sat Mar 23 2013 Vitaly Lipatov <lav@altlinux.ru> 0.2.3-alt1
