@@ -1,5 +1,5 @@
 Name: nginx-etersoft
-Version: 0.2.3
+Version: 0.2.4
 Release: alt1
 
 Summary: Additional Nginx templates and functions
@@ -15,6 +15,8 @@ Packager: Vitaly Lipatov <lav@altlinux.ru>
 Source: %name-%version.tar
 
 BuildArchitectures: noarch
+
+BuildRequires: rpm-macros-webserver-common
 
 Requires: nginx >= 1.1.8
 
@@ -55,6 +57,14 @@ install -m644 www/* %buildroot%webserver_htdocsdir/maintenance/
 %webserver_htdocsdir/maintenance/
 
 %changelog
+* Sat Aug 03 2013 Vitaly Lipatov <lav@altlinux.ru> 0.2.4-alt1
+- improve stop-injection.conf
+- stop-crack: catch /edit requests
+- admin pages: do log access-admin.log
+- static-stub: make log
+- stop-crack: stop wp-admin control
+- add maintenance page
+
 * Sat Mar 23 2013 Vitaly Lipatov <lav@altlinux.ru> 0.2.3-alt1
 - add trans-admin-proxy.conf
 - deny.conf: forbids sql and .hg
