@@ -143,7 +143,10 @@ for i in $VHOSTSDIR/*.conf ; do
 	# Note: Will note use: get username from /home/USER/www/domain -> USER
 	UDIR=$(dirname "$DROOT") ; UDIR=$(dirname "$UDIR") ; UDIR=$(basename "$UDIR")
 
-	ALIASLIST=$(get_aliaslist)
+	TECHNAME=`echo $SITE | sed -e "s|\..*||g"`
+	TECHALIAS=$TECHNAME.$TECHHOST
+
+	ALIASLIST="$(get_aliaslist) $TECHALIAS"
 
 	echo
 	echo "Read from $(basename $i), main site: $SITE, USER: $UDIR, ALIASLIST: $ALIASLIST"
