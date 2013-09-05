@@ -38,7 +38,7 @@ local aliaslist=
 # for get space before
 [ -n "$ALIASLIST" ] && aliaslist=" $ALIASLIST"
 
-if [ -n "DISABLE_LOG" ] ; then
+if [ -n "$DISABLE_LOG" ] ; then
     ERRLOGNAME=/dev/null
     CUSLOGNAME=/dev/null
 else
