@@ -1,3 +1,4 @@
 # Config for nginx conf autocreate
-#  VEID IP            in VE dir                  domains (without www)
-   192  192.168.3.192 /usr/share/mediawiki       somesite.com
+#  VEID IP            in VE dir                  domains (without www)  engine
+   192  192.168.3.192 /usr/share/mediawiki       somesite.com           mediawiki
+   193  192.168.3.193 /usr/share/some            somesite1.com
