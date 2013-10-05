@@ -6,7 +6,7 @@
 . ./create_nginx.config
 . ./functions-apache
 
-VEDIR=/var/lib/vz/root/$VEID
+VEDIR=/var/lib/vz/private/$VEID
 
 # Apache2
 VHOSTSDIR=$VEDIR/etc/httpd2/conf/sites-enabled
@@ -226,7 +226,7 @@ while read VEID VEIP VESUBDIR DOMAINS ENGINE; do
     [ -z "$VEID" ] && continue
     [ "$VEID" = "#" ] && continue
     echo "$VEID with $DOMAINS"
-    VEDIR=/var/lib/vz/root/$VEID
+    VEDIR=/var/lib/vz/private/$VEID
     SITE=
     OTHERDOMAINS=
     for i in $DOMAINS ; do
