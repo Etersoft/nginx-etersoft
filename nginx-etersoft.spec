@@ -54,7 +54,8 @@ install -m644 www/* %buildroot%webserver_htdocsdir/maintenance/
 %config(noreplace) %_sysconfdir/nginx/httpconf-available.d/*
 %_sysconfdir/nginx/examples/
 %_datadir/%name/
-%webserver_htdocsdir/maintenance/
+%dir %webserver_htdocsdir/maintenance/
+%config(noreplace) %webserver_htdocsdir/maintenance/*
 
 %changelog
 * Sat Aug 03 2013 Vitaly Lipatov <lav@altlinux.ru> 0.2.4-alt1
