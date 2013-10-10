@@ -22,6 +22,9 @@ mkdir -p $NGINXSITES
 
 check_if_nocache()
 {
+    # do not use by default
+    # TODO: rewrite to use cache
+    return 0
     local SITE="$1"
     test -r $NOCACHELIST || return
     grep -q $SITE $NOCACHELIST
@@ -64,6 +67,8 @@ EOF
 if ! check_if_nomissing $DOMAIN ; then
 cat <<EOF
         # Отдаём jpeg, png, gif напрямую. Не существуют - отдаём приготовленную картинку
+        set \$vzroot $VEDIR;
+        include include/static-icons.conf;
         include include/static-stub.conf;
 EOF
 fi
