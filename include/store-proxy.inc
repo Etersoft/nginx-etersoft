@@ -6,7 +6,7 @@
        # Cookie
        #http://n2.nabble.com/Help-cache-or-not-by-cookie-td3124462.html
 
-       proxy_redirect off;
+       #proxy_redirect off;
 
        # http://dklab.ru/chicken/nablas/56.html
        # http://n2.nabble.com/proxy-cache-does-not-work-td2986064.html
@@ -25,7 +25,7 @@
        # http://www.lexa.ru/nginx-ru/msg25572.html
        # TODO: move to separate
        proxy_buffering on;
-       proxy_buffers 8 32k;
+       proxy_buffers 100;
        proxy_buffer_size 64k;
        proxy_store off;
 
