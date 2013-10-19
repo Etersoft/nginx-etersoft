@@ -25,7 +25,7 @@
        # http://www.lexa.ru/nginx-ru/msg25572.html
        # TODO: move to separate
        proxy_buffering on;
-       proxy_buffers 100;
+       proxy_buffers 50 8k;
        proxy_buffer_size 64k;
        proxy_store off;
 
