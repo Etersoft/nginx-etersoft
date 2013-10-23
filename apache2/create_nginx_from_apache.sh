@@ -104,6 +104,8 @@ cat <<EOF
 
         include include/stop-crack.conf;
 
+        include include/stop-injection.conf;
+
         location / {
             # Пытаемся, чтобы redirect www был только для динамики
             include include/rewrite-www.conf;

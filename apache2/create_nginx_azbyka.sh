@@ -41,9 +41,11 @@ cat <<EOF
         include include/static-stub.conf;
 
         # пробуем отдать напрямую статикой, не получится - на @fallback
-	# FIXME: fallback будет не туда, вернул /news, помогло
-	# Но что делать потом? Рассчитываем на readonly доступ
+        # FIXME: fallback будет не туда, вернул /news, помогло
+        # Но что делать потом? Рассчитываем на readonly доступ
         include include/static-fallback.conf;
+
+        include include/stop-injection.conf;
 
         proxy_pass \$subserver;
         #set \$host azbyka_news.site.azbyka.ru;
