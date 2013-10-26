@@ -98,7 +98,7 @@ parse_site_config()
 
     echo
     echo "*** File $i, site: $DOMAINNAME, user: $USERNAME"
-    if [ "$(basename $i)" != "$DOMAINNAME.conf" ] ; then
+    if [ "$(basename $i .conf)" != "$DOMAINNAME" ] && [ "$(basename $i .conf)" != "$USERNAME" ] ; then
         fatal "$i: file conf name and site name are not equal!"
     fi
 

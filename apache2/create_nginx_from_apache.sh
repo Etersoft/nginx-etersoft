@@ -199,14 +199,16 @@ for i in $VHOSTSDIR/*.conf ; do
 
 	ALIASLIST="$(get_aliaslist $i) $TECHALIAS"
 
+	ROOTDIR=$(realpath $HOMEDIR/../$DROOT)
+
 	echo
-	echo "Read from $i, main site: $SITE, USER: $UDIR, ALIASLIST: $ALIASLIST"
+	echo "Read from $i, main site: $SITE, USER: $UDIR, ALIASLIST: $ALIASLIST, DROOT; $DROOT"
 
 	if [ "$VHOSTSDIR/$SITE.conf" != "$i" ] ; then
 		echo "Warning: server name $SITE is not compat with file name $i" | tee -a $LOGFILE
 	fi
-	if [ ! -d "$VEDIR$DROOT" ] ; then
-		echo "Error: DocumentRoot $VEDIR$DROOT does not exists in file $i" | tee -a $LOGFILE
+	if [ ! -d "$ROOTDIR" ] ; then
+		echo "Error: DocumentRoot $ROOTDIR does not exists in file $i" | tee -a $LOGFILE
 	fi
 
 	if [ -r $NGINXSITES/../$SITE.conf ] ; then
@@ -215,7 +217,7 @@ for i in $VHOSTSDIR/*.conf ; do
 	fi
 
 	NOCACHE=$(check_if_nocache $SITE)
-	print_nginx_conf "$LISTENIP" $VEDIR$DROOT $SITE "$ALIASLIST" "$APACHEHOST" "$NOCACHE" >$NGINXSITES/$SITE.conf.new
+	print_nginx_conf "$LISTENIP" $ROOTDIR $SITE "$ALIASLIST" "$UPSTREAMNAME" "$NOCACHE" >$NGINXSITES/$SITE.conf.new
 	rewrite_if_changed $NGINXSITES/$SITE.conf.new $NGINXSITES/$SITE.conf
 done
 }
