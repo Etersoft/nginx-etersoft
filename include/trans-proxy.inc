@@ -19,3 +19,9 @@ proxy_set_header X-Real-IP $remote_addr;
 # Нужно для модуля RPAF в Apache, в котором указывается RPAFheader X-Forwarded-For
 # http://padlik.ru/entries/86.html
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+# new method:
+# in apache config: SetEnvIf X-Forwarded-Proto https HTTPS=on
+# PerlPassEnv HTTPS
+# # a2enmod setenvif
+proxy_set_header  X-Forwarded-Proto $scheme;
