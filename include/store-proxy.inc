@@ -43,9 +43,10 @@
        # Заставляем nginx кэшировать страницу в любом случае, независимо от
        # заголовков кэширования, выставляемых в PHP.
        # Сервер nginx обращает внимание на заголовки Cache-Control, Expires и Pragma, которые выдает PHP.
+       # Видимо, также обращает внимание и на Set-Cookie
        # FIXME: invalid value "Pragma" ??
        # http://www.serverphorums.com/read.php?5,18350,18356,quote=1
-       proxy_ignore_headers "Cache-Control" "Expires" "X-Accel-Expires";
+       proxy_ignore_headers "Cache-Control" "Expires" "X-Accel-Expires" "Set-Cookie";
 
        # Гарантируем, что разные пользователи не получат одну и ту же сессионную Cookie.
        proxy_hide_header "Set-Cookie";
