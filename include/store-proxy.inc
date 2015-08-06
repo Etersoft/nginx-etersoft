@@ -12,6 +12,9 @@
        # http://n2.nabble.com/proxy-cache-does-not-work-td2986064.html
        proxy_cache             ngcache;
 
+       # если страница уже запрошена, ждать результата, а не пытаться параллельно запросить
+       proxy_cache_lock on;
+
        # this is default value
        proxy_cache_key          "$scheme$host$uri$is_args$args";
 
