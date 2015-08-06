@@ -1,0 +1,8 @@
+subst-site?
+<------>location /asgek {
+<------><------>rewrite ^/asgek/(.*)$ /$1 break;
+<------><------>proxy_pass http://devel.etersoft.ru:44180;
+<------><------>include include/trans-proxy.conf;
+
+
+http://wiki.nginx.org/Pitfalls#Server_Name
