@@ -9,7 +9,6 @@
        #proxy_redirect off;
 
        # http://dklab.ru/chicken/nablas/56.html
-       # http://n2.nabble.com/proxy-cache-does-not-work-td2986064.html
        proxy_cache             ngcache;
 
        # если страница уже запрошена, ждать результата, а не пытаться параллельно запросить
@@ -64,3 +63,9 @@
        # Нужно для модуля RPAF в Apache, в котором указывается RPAFheader X-Forwarded-For
        # http://padlik.ru/entries/86.html
        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+
+       #proxy_cache_bypass $http_x_update;
+
+       #То можно будет принудительно обновлять кэш страницы при необходимости:
+       #curl -s -o /dev/null  -H "X-Update: 1" www.example.com
