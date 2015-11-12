@@ -1,1 +1,1 @@
-limit_req zone=admlim burst=3;
+limit_req zone=admlim burst=15;
