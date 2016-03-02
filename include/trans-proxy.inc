@@ -20,8 +20,14 @@ proxy_set_header X-Real-IP $remote_addr;
 # http://padlik.ru/entries/86.html
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
-# new method:
+# default method:
 # in apache config: SetEnvIf X-Forwarded-Proto https HTTPS=on
 # PerlPassEnv HTTPS
 # # a2enmod setenvif
+# php: if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') 
+
+# latest common method
+# http://stackoverflow.com/questions/1175096/how-to-find-out-if-youre-using-https-without-serverhttps
+# php: if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+
 proxy_set_header  X-Forwarded-Proto $scheme;
