@@ -69,3 +69,16 @@
 
        #То можно будет принудительно обновлять кэш страницы при необходимости:
        #curl -s -o /dev/null  -H "X-Update: 1" www.example.com
+
+
+# default method:
+# in apache config: SetEnvIf X-Forwarded-Proto https HTTPS=on
+# PerlPassEnv HTTPS
+# # a2enmod setenvif
+# php: if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') 
+
+# latest common method
+# http://stackoverflow.com/questions/1175096/how-to-find-out-if-youre-using-https-without-serverhttps
+# php: if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+
+proxy_set_header  X-Forwarded-Proto $scheme;
