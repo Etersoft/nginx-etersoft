@@ -1,5 +1,5 @@
 Name: nginx-etersoft
-Version: 0.2.11
+Version: 0.2.12
 Release: alt1
 
 Summary: Additional Nginx templates and functions
@@ -58,6 +58,9 @@ install -m644 www/* %buildroot%webserver_htdocsdir/maintenance/
 %config(noreplace) %webserver_htdocsdir/maintenance/*
 
 %changelog
+* Thu Mar 03 2016 Vitaly Lipatov <lav@altlinux.ru> 0.2.12-alt1
+- set X-Forwarded-Proto for static proxy too
+
 * Thu Mar 03 2016 Vitaly Lipatov <lav@altlinux.ru> 0.2.11-alt1
 - add woff2 support
 - improve TLS security (eterbug #10599)
