@@ -1,5 +1,5 @@
 Name: nginx-etersoft
-Version: 0.2.10
+Version: 0.2.11
 Release: alt1
 
 Summary: Additional Nginx templates and functions
@@ -58,6 +58,11 @@ install -m644 www/* %buildroot%webserver_htdocsdir/maintenance/
 %config(noreplace) %webserver_htdocsdir/maintenance/*
 
 %changelog
+* Thu Mar 03 2016 Vitaly Lipatov <lav@altlinux.ru> 0.2.11-alt1
+- add woff2 support
+- improve TLS security (eterbug #10599)
+- add comment about ssl detection on the server side
+
 * Thu Nov 12 2015 Vitaly Lipatov <lav@altlinux.ru> 0.2.10-alt1
 - stop-injection: replace 401 with 406 error code
 - stop-injection: fix against sleep
