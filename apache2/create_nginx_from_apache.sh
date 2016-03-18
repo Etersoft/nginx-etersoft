@@ -187,6 +187,7 @@ date >> $LOGFILE
 
 create_nginx_conf()
 {
+test -d $VHOSTSDIR || return
 for i in $VHOSTSDIR/*.conf ; do
 	SITE=$(get_var $i ServerName)
 	if [ ! -n "$SITE" ] ; then
