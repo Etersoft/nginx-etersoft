@@ -15,7 +15,9 @@
        proxy_cache_lock on;
 
        # this is default value
-       proxy_cache_key          "$scheme$host$uri$is_args$args";
+       #proxy_cache_key "$scheme$proxy_host$request_uri";
+       # pseudo default, can run in recursion with /// access
+       #proxy_cache_key          "$scheme$host$uri$is_args$args";
 
        proxy_cache_use_stale http_502 http_503 http_504;
 
