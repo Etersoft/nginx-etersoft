@@ -14,8 +14,7 @@
        # если страница уже запрошена, ждать результата, а не пытаться параллельно запросить
        proxy_cache_lock on;
 
-       # this is default value
-       #proxy_cache_key "$scheme$proxy_host$request_uri";
+       proxy_cache_key "$scheme$proxy_host$request_uri";
        # pseudo default, can run in recursion with /// access
        #proxy_cache_key          "$scheme$host$uri$is_args$args";
 
