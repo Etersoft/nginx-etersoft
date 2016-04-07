@@ -12,13 +12,16 @@
        proxy_cache             ngcache;
 
        # если страница уже запрошена, ждать результата, а не пытаться параллельно запросить
+       # https://trac.nginx.org/nginx/ticket/130
        proxy_cache_lock on;
+       proxy_cache_lock_age 200s;
+       proxy_cache_lock_timeout 300s;
 
        proxy_cache_key "$scheme$proxy_host$request_uri";
        # pseudo default, can run in recursion with /// access
        #proxy_cache_key          "$scheme$host$uri$is_args$args";
 
-       proxy_cache_use_stale http_502 http_503 http_504;
+       proxy_cache_use_stale updating http_502 http_503 http_504;
 
        # cache.conf in conf-available.d
        #proxy_cache_path /var/spool/nginx/cache levels=1:2 keys_zone=onepr:20m inactive=1d max_size=200m;
