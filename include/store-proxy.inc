@@ -51,6 +51,8 @@
        # http://www.serverphorums.com/read.php?5,18350,18356,quote=1
        proxy_ignore_headers "Cache-Control" "Expires" "X-Accel-Expires" "Set-Cookie";
 
+       proxy_hide_header "X-Powered-By";
+
        # Гарантируем, что разные пользователи не получат одну и ту же сессионную Cookie.
        proxy_hide_header "Set-Cookie";
 
