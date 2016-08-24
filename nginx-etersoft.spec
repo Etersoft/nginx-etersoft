@@ -16,6 +16,7 @@ Source: %name-%version.tar
 
 BuildArchitectures: noarch
 
+# error: File must begin with "/": %webserver_htdocsdir/maintenance/
 BuildRequires: rpm-macros-webserver-common
 
 Requires: nginx >= 1.8.1
@@ -37,6 +38,9 @@ mkdir -p %buildroot%_sysconfdir/nginx/httpconf-enabled.d/
 mkdir -p %buildroot%_sysconfdir/nginx/httpconf-available.d/
 install -m644 httpconf-available.d/* %buildroot%_sysconfdir/nginx/httpconf-available.d/
 
+mkdir -p %buildroot%_sysconfdir/nginx/sites-available.d/
+install -m644 sites-available.d/* %buildroot%_sysconfdir/nginx/sites-available.d/
+
 mkdir -p %buildroot%_sysconfdir/nginx/examples/
 install -m644 examples/* %buildroot%_sysconfdir/nginx/examples/
 
@@ -52,6 +56,7 @@ install -m644 www/* %buildroot%webserver_htdocsdir/maintenance/
 %dir %_sysconfdir/nginx/httpconf-available.d/
 %dir %_sysconfdir/nginx/httpconf-enabled.d/
 %config(noreplace) %_sysconfdir/nginx/httpconf-available.d/*
+%config(noreplace) %_sysconfdir/nginx/sites-available.d/
 %_sysconfdir/nginx/examples/
 %_datadir/%name/
 %dir %webserver_htdocsdir/maintenance/
