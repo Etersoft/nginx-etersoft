@@ -6,3 +6,13 @@ subst-site?
 
 
 http://wiki.nginx.org/Pitfalls#Server_Name
+
+        public static function detectProtocol() {
+                if ( ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] == 'on' ) ||
+                        ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) &&
+                        $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ) ) {
+                        return 'https';
+                } else {
+                        return 'http';
+                }
+        }
