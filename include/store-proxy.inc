@@ -77,6 +77,8 @@
        #curl -s -o /dev/null  -H "X-Update: 1" www.example.com
 
 
+# SSL using
+# https://github.com/dmikusa-pivotal/cf-php-apache-buildpack/issues/6
 # default method:
 # in apache config: SetEnvIf X-Forwarded-Proto https HTTPS=on
 # PerlPassEnv HTTPS
@@ -88,3 +90,6 @@
 # php: if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
 
 proxy_set_header  X-Forwarded-Proto $scheme;
+
+# Чтобы апач не пытался ничего сжимать
+proxy_set_header Accept-Encoding "";

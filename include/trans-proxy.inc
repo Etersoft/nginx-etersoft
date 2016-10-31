@@ -20,6 +20,8 @@ proxy_set_header X-Real-IP $remote_addr;
 # http://padlik.ru/entries/86.html
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
+# SSL using
+# https://github.com/dmikusa-pivotal/cf-php-apache-buildpack/issues/6
 # default method:
 # in apache config: SetEnvIf X-Forwarded-Proto https HTTPS=on
 # PerlPassEnv HTTPS
@@ -31,3 +33,6 @@ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 # php: if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
 
 proxy_set_header  X-Forwarded-Proto $scheme;
+
+# Чтобы апач не пытался ничего сжимать (нужно для sub_filter и вообще)
+proxy_set_header Accept-Encoding "";
