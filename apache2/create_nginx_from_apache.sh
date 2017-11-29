@@ -38,6 +38,13 @@ check_if_nomissing()
     grep -q $SITE $NOIMAGEMISSING
 }
 
+check_if_ssl()
+{
+    test -n "$1" || return
+    test -r hosts_ssl.list || return
+    grep -q "$1" hosts_ssl.list
+}
+
 print_nginx_conf()
 {
 	local IP=$1 ROOT=$2 DOMAIN=$3 ALIASLIST="$4" SUBSERVER="$5" NOCACHE="$6"
@@ -46,14 +53,45 @@ cat <<EOF
 # DO NOT EDIT MANUALLY!
    server {
 EOF
-if [ -n "$IP" ] ; then
-cat <<EOF
+if check_if_ssl $DOMAIN ; then
+    if [ -n "$IP" ] ; then
+        cat <<EOF
+        listen $IP:80;
+        listen $IP:443 ssl http2;
+EOF
+    else
+        cat <<EOF
+        listen 80;
+        listen 443 ssl http2;
+EOF
+    fi
+else
+    if [ -n "$IP" ] ; then
+    cat <<EOF
         listen $IP;
 EOF
+    fi
 fi
 cat <<EOF
         server_name $DOMAIN www.$DOMAIN $ALIASLIST;
 
+EOF
+if check_if_ssl $DOMAIN ; then
+comment='#'
+[ -s "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ] && comment=''
+cat <<EOF
+        ${comment}ssl_certificate      /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
+        ${comment}ssl_certificate_key  /etc/letsencrypt/live/$DOMAIN/privkey.pem;
+        ${comment}ssl_trusted_certificate /etc/letsencrypt/live/$DOMAIN/chain.pem;
+
+        ${comment}include include/ssl.conf;
+        include include/letsencrypt.conf;
+        #include include/sslonly.conf;
+
+EOF
+fi
+
+cat <<EOF
         # Разные запрещённые файлы и каталоги
         include include/deny.conf;
 
@@ -246,8 +284,14 @@ while read VEID VEIP VESUBDIR DOMAINS ENGINE; do
             OTHERDOMAINS="$OTHERDOMAINS $i www.$i"
         fi
     done
+
     if [ -r $NGINXSITES/../$SITE.conf ] ; then
         echo "Warning: Skip $SITE.conf as already exists" | tee -a $LOGFILE
+        continue
+    fi
+
+    if [ -r $NGINXSITES/../web-forwarding/$SITE.conf ] ; then
+        echo "Warning: Skip $SITE.conf as already exists in web-forwarding" | tee -a $LOGFILE
         continue
     fi
 
