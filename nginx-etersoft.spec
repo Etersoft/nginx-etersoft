@@ -1,5 +1,5 @@
 Name: nginx-etersoft
-Version: 0.2.20
+Version: 0.2.21
 Release: alt1
 
 Summary: Additional Nginx templates and functions
@@ -63,6 +63,12 @@ install -m644 www/* %buildroot%webserver_htdocsdir/maintenance/
 %config(noreplace) %webserver_htdocsdir/maintenance/*
 
 %changelog
+* Fri Aug 17 2018 Vitaly Lipatov <lav@altlinux.ru> 0.2.21-alt1
+- letsencrypt: use /.well-known/acme-challenge
+- mediawiki: add /resources/assets
+- mediawiki: expires 7d for statics
+- static: add m4b
+
 * Thu Jan 04 2018 Vitaly Lipatov <lav@altlinux.ru> 0.2.20-alt1
 - fix static-stub-* conf
 - add static-stub404.conf
