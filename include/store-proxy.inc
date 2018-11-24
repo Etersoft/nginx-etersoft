@@ -21,7 +21,7 @@
        # pseudo default, can run in recursion with /// access
        #proxy_cache_key          "$scheme$host$uri$is_args$args";
 
-       proxy_cache_use_stale updating http_502 http_503 http_504;
+       proxy_cache_use_stale error timeout updating http_502 http_503 http_504;
 
        # cache.conf in conf-available.d
        #proxy_cache_path /var/spool/nginx/cache levels=1:2 keys_zone=onepr:20m inactive=1d max_size=200m;
@@ -53,7 +53,8 @@
 
        proxy_hide_header "X-Powered-By";
 
-       # Гарантируем, что разные пользователи не получат одну и ту же сессионную Cookie.
+       # Гарантируем, что разные пользователи не получат одну и ту же сессионную Cookie
+       # TODO: А как же админка работает?
        proxy_hide_header "Set-Cookie";
 
        #proxy_buffering off;
@@ -71,9 +72,25 @@
        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
 
-       #proxy_cache_bypass $http_x_update;
+       # Pass through cache
+       add_header X-Cache $upstream_cache_status;
 
-       #То можно будет принудительно обновлять кэш страницы при необходимости:
+       proxy_cache_background_update on;
+
+       # WordPress admin
+       set $skipcache 0;
+       if ($http_cookie ~ "wordpress_logged_in") {
+           set $skipcache 1;
+       }
+
+       # TODO: other dynamic
+       # Check for Set-Cookie??
+
+       # Pass cache when X-Update or cookie
+       proxy_cache_bypass $http_x_update $skipcache;
+       proxy_no_cache $skipcache;
+
+       # можно будет принудительно обновлять кэш страницы при необходимости:
        #curl -s -o /dev/null  -H "X-Update: 1" www.example.com
 
 
