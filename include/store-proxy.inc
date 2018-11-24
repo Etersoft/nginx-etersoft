@@ -89,7 +89,12 @@
 # http://stackoverflow.com/questions/1175096/how-to-find-out-if-youre-using-https-without-serverhttps
 # php: if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
 
-proxy_set_header  X-Forwarded-Proto $scheme;
+# set X-Forwarded from $scheme or from upstream nginx
+set $ourscheme $scheme;
+if ( $http_x_forwarded_proto != "") {
+    set $ourscheme $http_x_forwarded_proto;
+}
+proxy_set_header  X-Forwarded-Proto $ourscheme;
 
 # Чтобы апач не пытался ничего сжимать
 proxy_set_header Accept-Encoding "";
