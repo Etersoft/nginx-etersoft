@@ -14,11 +14,17 @@ proxy_buffer_size 64k;
 # lav 01.07.09
 proxy_set_header Connection  close;
 
-proxy_set_header X-Real-IP $remote_addr;
+# set X-Forwarded-For from $remote_addr or from upstream nginx
+set $ourremote_addr $remote_addr;
+if ($proxy_add_x_forwarded_for = "") {
+    set $ourremote_addr $proxy_add_x_forwarded_for;
+}
+
+proxy_set_header X-Real-IP $ourremote_addr;
 
 # Нужно для модуля RPAF в Apache, в котором указывается RPAFheader X-Forwarded-For
 # http://padlik.ru/entries/86.html
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-For $ourremote_addr;
 
 # SSL using
 # https://github.com/dmikusa-pivotal/cf-php-apache-buildpack/issues/6
