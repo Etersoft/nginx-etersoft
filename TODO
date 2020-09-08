@@ -1,3 +1,12 @@
+https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/?__cf_chl_captcha_tk__=a370efe65fcb4e18fb8f2bfaa48a82e98f6cc58b-1583433512-0-ATnFYwWNVaoEthK7x-vj2Bu0rHHjzr7sw68tJwTh7Z9hHEIRZc3fidyJzDOthh-tM9NObcM34pbTBtbbvtuHV94vvNlKy4PPkBAdVQQLv_eyolUQ2hAI-DTX1kMcRbMp3NkCf8QOg8WmXoEG1sWG22pl3xownQJTmoixFow2UVaAdSggf4l0Nq-Cxt665B7MSMDI8_rnn9mJfvOTUhwxCsHD_tbHl-7wohEneNcfDfBkbR4EwibmFf3-XGTesZHS9w43f4QlNxKTp3b11xOiIxf2gys7WateNDJRASO6BNc24zaVW63te2UarDnqN8394FppQPe_EnLbtfyVoR0ek5SL5946jKRvhXr32J3fqcNWK06Wz_qRtRNe4YJ7_vx-Xd_SDJadMIdSZ-aGXTjPidr-6jIBowWgoBlcJ2GCkSth2G-1U92J70AO7MPZXgHRtw
+
+https://www.tech-notes.net/x-forwarded-proto-https-nginx/
+map $http_x_forwarded_proto $thescheme {
+     default $scheme;
+     https https;
+ }
+
+
 subst-site?
 <------>location /asgek {
 <------><------>rewrite ^/asgek/(.*)$ /$1 break;
