@@ -21,7 +21,7 @@
        # pseudo default, can run in recursion with /// access
        #proxy_cache_key          "$scheme$host$uri$is_args$args";
 
-       proxy_cache_use_stale error timeout updating http_502 http_503 http_504;
+       proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
 
        # cache.conf in conf-available.d
        #proxy_cache_path /var/spool/nginx/cache levels=1:2 keys_zone=onepr:20m inactive=1d max_size=200m;
