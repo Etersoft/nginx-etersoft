@@ -16,7 +16,7 @@ proxy_set_header Connection  close;
 
 # set X-Forwarded-For from $remote_addr or from upstream nginx
 set $ourremote_addr $remote_addr;
-if ($proxy_add_x_forwarded_for = "") {
+if ($proxy_add_x_forwarded_for != "") {
     set $ourremote_addr $proxy_add_x_forwarded_for;
 }
 
